@@ -10,10 +10,28 @@ def reader(x):
 def matcher(str,expr='\s'):
     return True if compile(expr).match(str) else False
 
+def get_word(text,start_position,end_position=None):
+    if matcher(text[start_position]):
+        return end_position
+    return get_word(text,start_position+1,start_position)
+
+
+def new_liner(xml):
+    out=''
+    for pos in range(0,len(xml)):
+        if xml[pos] == '<' and out[(len(out) - 1) if len(out) > 0 else 0] != "\n":
+            out+="\n"+xml[pos]
+        elif xml[pos] =='>':
+            out+=xml[pos]+"\n"
+        else:
+            out+=xml[pos]
+    return out
+
+
+
+
 
 def xml_to_array(x):
-    def new_liner(xml):
-
     def de_spacer(y):
         out=[]
         counter = 0
@@ -36,11 +54,11 @@ def xml_to_array(x):
 
 
 
-print(xml_to_array(filer('test.xml')))
-
-
-def parse_tag(x):
-    if
+# print(xml_to_array(filer('test.xml')))
+#
+#
+# def parse_tag(x):
+#     if
 
 
 
@@ -65,3 +83,15 @@ parameters begins after name. separating with spaces
 
 children begins when tag not closed and next tag opens
 data begins when tag not closed till first <"""
+
+# Get all tags
+# (<![^\W].*?>)|(<[^\W].*?>)|(<\/.*?>)|([\w\s]*)
+
+# Get name from tag
+# <([\/]?[\w:]+\s+).*?>
+
+# Get all parameters
+# <[\/]?[\w:]+\s+(.*?)>
+
+# get keys/values
+# ([\w:]*?)="(.*?)"|([\w:]*?)=(\S*)|\s([\w\:\-]+?)\s
