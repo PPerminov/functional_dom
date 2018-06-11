@@ -11,6 +11,14 @@ def special_list(*params, ty=0):
     return worker([i for i in params[0]])
 
 
+def get_position(list_1, position):
+    if not list_1:
+        return False
+    return head(list_1) if position == 0 else get_position(
+        tail(list_1),
+        position - 1)
+
+
 def head(list1):
     return car(list1)
 
